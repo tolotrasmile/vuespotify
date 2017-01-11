@@ -12,7 +12,7 @@ var useCssSourceMap = cssSourceMapDev || cssSourceMapProd
 
 module.exports = {
   entry: {
-    app: './src/main.js'
+    app: ['./src/main.js']
   },
   output: {
     path: config.build.assetsRoot,
@@ -61,6 +61,15 @@ module.exports = {
       {
         test: /\.json$/,
         loader: 'json'
+      },
+      {
+        test: /\.scss$/,
+        vue: 'scss',
+        loaders: ['css', 'postcss', 'sass']
+      },
+      {
+        test: /\.css$/,
+        loaders: ['css', 'postcss']
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
