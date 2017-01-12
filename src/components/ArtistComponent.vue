@@ -1,20 +1,23 @@
 <template>
   <div>
     <transition name="fade">
-      <div v-if="errors.length > 0" class="alert alert-danger">
+      <div v-if="errors.length > 0" class="alert alert-danger" style="margin-top: 20px">
         <div v-for="error in errors">
           {{error.message}}
         </div>
       </div>
     </transition>
-    <header class="artist-header" v-if="artist">
-      <div v-if="artist.images.length > 0">
-        <img class="artist-thumb" :src="getImage(artist)">
+    <header class="artist-header" v-if="artist !== null">
+      <div>
+        <img v-if="artist.images.length > 0" class="artist-thumb" :src="getImage(artist)">
         <h2>{{artist.name}}</h2>
-        <div v-if="artist.genres">
-          <strong>Genres: </strong>
-          {{ artist.genres.join(', ') }}
-        </div>
+      </div>
+      <div v-if="artist.genres.length">
+        <strong>Genres: </strong>
+        {{ artist.genres.join(', ') }}
+      </div>
+      <div v-else>
+        <p></p>
       </div>
     </header>
     <div class="artist-albums">
@@ -22,9 +25,7 @@
         <div v-for="album of albums" :key="album" >
           <div class="col-xs-12 col-md-4 col-lg-3">
             <div class="well album">
-              <div v-if="album.images.length > 0">
-                <img class="album-thumb img-thumbnail" :src="getAlbumImage(album)">
-              </div>
+              <img  v-if="album.images.length > 0" class="album-thumb img-thumbnail" :src="getAlbumImage(album)">
               <h4>{{album.name}}</h4>
               <a :href="getAlbumUrl(album)" class="btn btn-default btn-block">Album details</a>
             </div>
@@ -55,29 +56,32 @@
       }
     },
     mounted () {
-      this.$artist = this.$resource('artists/{id}', {}, {}, {
-        before: () => {
-          this.$Progress.start()
-        },
-        after: () => {
-          this.$Progress.finish()
-        }
-      })
+      this.$artist = this.$resource('artists/{id}')
       this.$artist.query({id: this.$route.params.id}).then(
         response => {
           this.artist = response.data
+          document.title = 'VueSpotify | ' + this.artist.name
         },
         error => {
           console.error(error)
         }
       )
-      this.$albums = this.$resource('artists/{id}/albums')
+      this.$albums = this.$resource('artists/{id}/albums', {}, {}, {
+        before: () => {
+          console.log('before......')
+          this.$Progress.start()
+        },
+        after: () => {
+          console.log('after......')
+          this.$Progress.finish()
+        }
+      })
       this.$albums.query({id: this.$route.params.id}).then(
         response => {
           this.albums = response.data.items
         },
         error => {
-          this.errors.push({code: error.status, message: error.statusText})
+          this.errors.push({code: error.status, message: 'Unable to find the artist'})
           console.error(error)
         }
       )

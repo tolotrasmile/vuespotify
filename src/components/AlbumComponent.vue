@@ -6,7 +6,7 @@
     </div>
     <div class="row" v-if="currentSong">
       <div class="col-md-12">
-        <p>Track {{ currentSong.track_number }} : {{ currentSong.name }}</p>
+        <p><strong>Preview : </strong>Track {{ currentSong.track_number }} - {{ currentSong.name }}</p>
         <audio ref="player" controls="controls" @play="togglePlayer(true)" @pause="togglePlayer(false)" style="width: 100%;">
           <source :src="currentSong.preview_url">
         </audio>
@@ -46,19 +46,21 @@
       switchSong (song) {
         this.currentSong = song
       },
-      getStyle (song) {
-        return song === this.currentSong ? 'search-res well selected' : 'search-res well'
-      },
       togglePlayer (state) {
         this.play = state
+      },
+      getStyle (song) {
+        return song === this.currentSong ? 'song well selected' : 'song well'
       }
     },
     mounted () {
       this.$songs = this.$resource('albums/{id}', {}, {}, {
         before: () => {
+          console.log('before......')
           this.$Progress.start()
         },
         after: () => {
+          console.log('after......')
           this.$Progress.finish()
         }
       })
@@ -68,9 +70,8 @@
           if (response.data.tracks.items && response.data.tracks.items.length > 0) {
             this.songs = response.data.tracks.items
             this.switchSong(this.songs[0])
+            document.title = 'VueSpotify | ' + this.album.name
           }
-        },
-        () => {
         }
       )
       this.$watch('currentSong', () => {

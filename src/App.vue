@@ -10,7 +10,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <router-link to="/" class="navbar-brand">vueSpotify</router-link>
+          <router-link to="/" class="navbar-brand">VueSpotify</router-link>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -24,27 +24,5 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  mounted () {
-    this.$Progress.finish()
-  },
-  created () {
-    this.$Progress.start()
-    this.$router.beforeEach((to, from, next) => {
-      if (to.meta.progress !== undefined) {
-        let meta = to.meta.progress
-        this.$Progress.parseMeta(meta)
-      }
-      this.$Progress.start()
-      next()
-    })
-    this.$router.afterEach((to, from) => {
-      this.$Progress.finish()
-    })
-  }
-}
-</script>
 
 <style lang="scss" src="./assets/app.scss"></style>
