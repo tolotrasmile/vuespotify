@@ -12,12 +12,9 @@
         <img v-if="artist.images.length > 0" class="artist-thumb" :src="getImage(artist)">
         <h2>{{artist.name}}</h2>
       </div>
-      <div v-if="artist.genres.length">
+      <div>
         <strong>Genres: </strong>
-        {{ artist.genres.join(', ') }}
-      </div>
-      <div v-else>
-        <p></p>
+        {{ artist.genres.length ? artist.genres.join(', ') : 'none' }}
       </div>
     </header>
     <div class="artist-albums">
@@ -68,11 +65,9 @@
       )
       this.$albums = this.$resource('artists/{id}/albums', {}, {}, {
         before: () => {
-          console.log('before......')
           this.$Progress.start()
         },
         after: () => {
-          console.log('after......')
           this.$Progress.finish()
         }
       })

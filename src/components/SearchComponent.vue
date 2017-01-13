@@ -22,9 +22,9 @@
           <div class="col-md-12">
             <div class="artist-list well">
               <a :href="getUrl(artist)" @click="saveIndex()">{{ artist.name }}</a>
-              <div v-if="artist.genres.length">
+              <div>
                 <strong>Genres: </strong>
-                {{ artist.genres.join(', ') }}
+                {{ artist.genres.length ? artist.genres.join(', ') : 'none' }}
               </div>
             </div>
           </div>
@@ -57,7 +57,6 @@
           document.title = 'VueSpotify | Result for "' + this.searchStr + '"'
         } else {
           this.artists = []
-          document.title = 'VueSpotify'
         }
       },
       getUrl (artist) {

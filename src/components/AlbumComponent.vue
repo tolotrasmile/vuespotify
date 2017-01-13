@@ -1,12 +1,12 @@
 <template>
-  <div style="overflow: hidden">
+  <div>
     <div class="page-header" v-if="album">
       <h4>{{album.name}}</h4>
       by <a :href="getArtistUrl(album.artists[0])">{{album.artists[0].name}}</a>
     </div>
     <div class="row" v-if="currentSong">
       <div class="col-md-12">
-        <p><strong>Preview : </strong>Track {{ currentSong.track_number }} - {{ currentSong.name }}</p>
+        <p><strong>Preview : Track {{ currentSong.track_number }}</strong> - {{ currentSong.name }}</p>
         <audio ref="player" controls="controls" @play="togglePlayer(true)" @pause="togglePlayer(false)" style="width: 100%;">
           <source :src="currentSong.preview_url">
         </audio>
@@ -56,11 +56,9 @@
     mounted () {
       this.$songs = this.$resource('albums/{id}', {}, {}, {
         before: () => {
-          console.log('before......')
           this.$Progress.start()
         },
         after: () => {
-          console.log('after......')
           this.$Progress.finish()
         }
       })
