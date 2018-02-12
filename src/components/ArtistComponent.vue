@@ -19,10 +19,10 @@
     </header>
     <div class="artist-albums">
       <transition-group name="list" tag="div" class="row">
-        <div v-for="album of albums" :key="album" >
+        <div v-for="album of albums" :key="album">
           <div class="col-xs-12 col-md-4 col-lg-3">
             <div class="well album">
-              <img  v-if="album.images.length > 0" class="album-thumb img-thumbnail" :src="getAlbumImage(album)">
+              <img v-if="album.images.length > 0" class="album-thumb img-thumbnail" :src="getAlbumImage(album)">
               <h4>{{album.name}}</h4>
               <a :href="getAlbumUrl(album)" class="btn btn-default btn-block">Album details</a>
             </div>
@@ -87,7 +87,9 @@
   .fade-enter-active, .fade-leave-active {
     transition: opacity 1s
   }
-  .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+
+  .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */
+  {
     opacity: 0
   }
 
@@ -96,11 +98,14 @@
     display: inline-block;
     margin-right: 10px;
   }
+
   .list-complete-enter, .list-complete-leave-to
-  /* .list-complete-leave-active for <2.1.8 */ {
+    /* .list-complete-leave-active for <2.1.8 */
+  {
     opacity: 0;
     transform: translateY(30px);
   }
+
   .list-complete-leave-active {
     position: absolute;
   }
