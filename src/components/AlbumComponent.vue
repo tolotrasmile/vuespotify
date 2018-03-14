@@ -14,7 +14,7 @@
     </div>
     <div v-if="songs.length > 0" class="song-list">
       <hr>
-      <div v-for="song of songs">
+      <div v-for="song of songs" :key="song.track_number">
         <div class="row">
           <div class="col-md-12">
             <div :class="getStyle(song)" @click.prevent="switchSong(song)">

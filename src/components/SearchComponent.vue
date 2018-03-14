@@ -17,7 +17,7 @@
       </div>
     </form>
     <div v-if="artists.length > 0">
-      <div v-for="artist of artists">
+      <div v-for="artist of artists" :key="artist.name">
         <div class="row">
           <div class="col-md-12">
             <div class="artist-list well">

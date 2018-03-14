@@ -2,7 +2,7 @@
   <div>
     <transition name="fade">
       <div v-if="errors.length > 0" class="alert alert-danger" style="margin-top: 20px">
-        <div v-for="error in errors">
+        <div v-for="error in errors" :key="error.message">
           {{error.message}}
         </div>
       </div>
